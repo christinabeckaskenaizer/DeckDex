@@ -45,7 +45,7 @@ model Deck {
     cardIds     String[]
     cardNames   String[]
     favorites   Int
-    Types       Types?   @relation(fields: [typesId], references: [id])
+    Types       Type[]
     typesId     String?
 }
 
@@ -56,7 +56,7 @@ model Format {
     Deck                   Deck[]
 }
 
-model Types {
+model Type {
     id   String @id @unique @default(cuid())
     name String
     Deck Deck[]
