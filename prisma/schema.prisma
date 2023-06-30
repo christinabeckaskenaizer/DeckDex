@@ -14,7 +14,21 @@ model User {
     email     String?  @unique
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
-
+    decks     Deck[]
 
     @@map(name: "users")
+}
+
+model Deck {
+    id          String   @id @unique @default(cuid())
+    userId      String
+    User        User     @relation(fields: [userId], references: [id])
+    name        String
+    description String
+    // types
+    // format
+    private     Boolean  @default(false)
+    cardIds     String[]
+    cardNames   String[]
+    favorites   Int
 }
