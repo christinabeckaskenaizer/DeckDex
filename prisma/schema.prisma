@@ -9,24 +9,24 @@ datasource db {
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id        String   @id @unique @default(cuid())
+    id        String    @id @unique @default(cuid())
     name      String?
-    userName  String?  @unique
-    email     String?  @unique
+    userName  String?   @unique
+    email     String?   @unique
     image     String?
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
+    createdAt DateTime  @default(now()) @map(name: "created_at")
+    updatedAt DateTime  @updatedAt @map(name: "updated_at")
     bio       String?
     sessions  Session[]
-    // decks     Deck[]?   @relation("deck")
+    decks     Deck[]
     // likedDecks Deck[]   @relation("deck")
 
     @@map(name: "users")
@@ -38,8 +38,6 @@ model Deck {
     User        User     @relation(fields: [userId], references: [id])
     name        String
     description String
-    // types
-    // format
     private     Boolean  @default(false)
     cardIds     String[]
     cardNames   String[]
