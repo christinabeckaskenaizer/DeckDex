@@ -8,6 +8,7 @@ export type UserResponseData = {
 interface ExtendedNextApiRequest extends NextApiRequest {
     body: {
         userId: string;
+        
     };
 }
 
