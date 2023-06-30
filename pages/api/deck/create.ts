@@ -4,23 +4,36 @@ import prisma from "../../../lib/prismadb";
 // type deckResponseData = {
 //     deck: {}
 // }
+interface ExtendedNextApiRequest extends NextApiRequest {
+    body : {
+        userId: string,
+        name : string,
+        description: string,
+        formatId : string,
+        isDeckPrivate : boolean,
+        cardIds : string[],
+        cardNames : string[]
+    };
+ }
 
-export default async function handler(req, res) {
-    const { userId, name, description, types, formatId, private, cardIds, cardNames, favorites, typesId} = req.body;
-    const result = await prisma.deck.create({
+export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse) {
+
+    const { userId, name, description, formatId, isDeckPrivate, cardIds, cardNames} = req.body;
+    console.log("hello", name);
+    try{
+    let result = await prisma.deck.create({
         data: {
-            id : id,
             userId : userId,
             name: name,
             description : description,
-            types : types,
             formatId : formatId,
-            private : private,
+            isDeckPrivate :isDeckPrivate,
             cardIds : cardIds,
             cardNames : cardNames,
-            favorites : favorites,
-            typesId : typesId,
         }
     });
-    res.json(result)
+    res.status(200).json({"id" : result.id})
+} catch (error) {
+    res.json(error);
+}
 }

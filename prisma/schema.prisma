@@ -34,37 +34,20 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-  bio           String?
-  userName      String?   @unique
-  emailVerified DateTime?
-  accounts      Account[]
-  decks         Deck[]
-  sessions      Session[]
-
-  @@map("users")
-}
-
 model Deck {
-  id          String   @id @unique @default(cuid())
-  userId      String
-  name        String
-  description String
-  types       String[]
-  formatId    String
-  private     Boolean  @default(false)
-  cardIds     String[]
-  cardNames   String[]
-  favorites   Int
-  typesId     String?
-  Format      Format   @relation(fields: [formatId], references: [id])
-  User        User     @relation(fields: [userId], references: [id])
-  Types       Type[]   @relation("DeckToType")
+  id            String   @id @unique @default(cuid())
+  userId        String
+  name          String
+  description   String
+  formatId      String
+  cardIds       String[]
+  cardNames     String[]
+  favorites     Int      @default(0)
+  isDeckPrivate Boolean  @default(false)
+  typeIds       String[]
+  Format        Format   @relation(fields: [formatId], references: [id])
+  User          User     @relation(fields: [userId], references: [id])
+  Types         Type[]   @relation("DeckToType")
 }
 
 model Format {
@@ -78,4 +61,19 @@ model Type {
   id   String @id @unique @default(cuid())
   name String
   Deck Deck[] @relation("DeckToType")
+}
+
+model User {
+  id            String    @id
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  bio           String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime
+  userName      String?
+  image         String?
+  accounts      Account[]
+  decks         Deck[]
+  sessions      Session[]
 }
