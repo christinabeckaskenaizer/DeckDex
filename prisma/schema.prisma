@@ -31,42 +31,38 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id @unique @default(cuid())
-  name          String?
-  email         String?   @unique
-  image         String?
-  emailVerified DateTime?
-  userName      String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  bio           String?
-  sessions      Session[]
-  decks         Deck[]
-  accounts      Account[]
-  // likedDecks Deck[]   @relation("deck")
-
-  @@map(name: "users")
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    image         String?
+    createdAt     DateTime  @default(now())
+    bio           String?
+    userName      String?
+    emailVerified DateTime?
+    accounts      Account[]
+    decks         Deck[]
+    sessions      Session[]
 }
 
+
 model Deck {
-  id          String   @id @unique @default(cuid())
-  userId      String
-  name        String
-  description String
-  types       String[]
-  formatId    String
-  private     Boolean  @default(false)
-  cardIds     String[]
-  cardNames   String[]
-  favorites   Int
-  typesId     String?
-  Format      Format   @relation(fields: [formatId], references: [id])
-  User        User     @relation(fields: [userId], references: [id])
-  Types       Type[]   @relation("DeckToType")
+  id            String   @id @unique @default(cuid())
+  userId        String
+  name          String
+  description   String
+  formatId      String
+  cardIds       String[]
+  cardNames     String[]
+  favorites     Int      @default(0)
+  isDeckPrivate Boolean  @default(false)
+  typeIds       String[]
+  Format        Format   @relation(fields: [formatId], references: [id])
+  User          User    @relation(fields: [userId], references: [id])
+  Types         Type[]   @relation("DeckToType")
 }
 
 model Format {
