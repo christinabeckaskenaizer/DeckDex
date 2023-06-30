@@ -25,10 +25,26 @@ model Deck {
     User        User     @relation(fields: [userId], references: [id])
     name        String
     description String
-    // types
-    // format
+    types       String[]
+    formatId    String
+    Format      Format   @relation(fields: [formatId], references: [id])
     private     Boolean  @default(false)
     cardIds     String[]
     cardNames   String[]
     favorites   Int
+    Types       Types?   @relation(fields: [typesId], references: [id])
+    typesId     String?
+}
+
+model Format {
+    id                     String   @id @unique @default(cuid())
+    name                   String
+    allowedRegulationMarks String[]
+    Deck                   Deck[]
+}
+
+model Types {
+    id   String @id @unique @default(cuid())
+    name String
+    Deck Deck[]
 }
