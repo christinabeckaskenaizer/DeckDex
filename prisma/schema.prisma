@@ -8,13 +8,26 @@ datasource db {
     url      = env("NEXT_PUBLIC_SUPABASE_URL") // uses connection pooling
 }
 
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
-    id        String   @id @default(cuid())
+    id        String   @id @unique @default(cuid())
     name      String?
+    userName  String?  @unique
     email     String?  @unique
+    image     String?
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
-    decks     Deck[]
+    bio       String?
+    sessions  Session[]
+    // decks     Deck[]?   @relation("deck")
+    // likedDecks Deck[]   @relation("deck")
 
     @@map(name: "users")
 }
