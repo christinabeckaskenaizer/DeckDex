@@ -14,10 +14,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<UserResponseData | string>) {
 
     let user: any | null = null;
-
     const { userId } = req.body;
-
-    console.log(req.body)
 
     if (userId) {
         user = await prisma.user.findUnique({
