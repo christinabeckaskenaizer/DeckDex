@@ -39,6 +39,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     res.status(200).json(
         deleted ? {
             "message": "User deleted"
-        } : "Failed to find user ;("
+        } : "Failed to delete user"
     );
 }
