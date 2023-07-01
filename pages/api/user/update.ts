@@ -8,7 +8,9 @@ export type UserResponseData = {
 interface ExtendedNextApiRequest extends NextApiRequest {
     body: {
         userId: string;
-        
+        image?: string;
+        userName?: string;
+        bio?: string;
     };
 }
 
@@ -18,12 +20,15 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
 
     const { userId } = req.body;
 
-    console.log(req.body)
-
     if (userId) {
-        user = await prisma.user.findUnique({
+        user = await prisma.user.update({
             where: {
                 id: userId
+            },
+            data: {
+                image: req.body.image,
+                userName: req.body.userName,
+                bio: req.body.bio
             }
         })
     }
