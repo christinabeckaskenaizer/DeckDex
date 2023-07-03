@@ -1,5 +1,5 @@
 // import { NextApiRequest, NextApiResponse } from "next";
-// import { prisma } from "../../../lib/prismadb";
+// import  prisma  from "../../../lib/prismadb";
 
 // type ResponseData = {
 //     message: boolean
