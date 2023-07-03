@@ -4,7 +4,7 @@ import "../styles/globals.css"
 
 function PokeApp({ Component, pageProps:{session, ...pageProps} }:AppProps){
     return (
-        <SessionProvider>
+        <SessionProvider session={session}>
             <Component {...pageProps}/>
         </SessionProvider>
     )

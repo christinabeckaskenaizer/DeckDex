@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import { NextPage } from 'next'
-import { signIn, useSession } from "next-auth/react"
+import { signIn, signOut, useSession } from "next-auth/react"
 import { createServerContext } from 'react';
 
-const Home:NextPage = () => {
-  const { data: session } = useSession()
+const Home: NextPage = () => {
+  const { data: session } = useSession();
   console.log(session)
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -13,7 +13,10 @@ const Home:NextPage = () => {
           Get started by editing&nbsp;
           <code className="font-mono font-bold">src/app/page.tsx</code>
         </p>
-        <button onClick={()=>signIn("google")}>Log In?!?!</button>
+        <button onClick={() => signIn("google")}>Log In?!?!</button>
+        <button onClick={() => signOut()}>Log Out?!?!</button>
+        <p>{session?.user?.name && session.user.name}</p>
+        <p>{!session?.user?.name && "Not logged in"}</p>
         <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
           <a
             className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
