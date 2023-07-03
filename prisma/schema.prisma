@@ -1,79 +1,78 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
+    provider        = "prisma-client-js"
+    previewFeatures = ["jsonProtocol", "fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("NEXT_PUBLIC_SUPABASE_URL")
+    provider = "postgresql"
+    url      = env("NEXT_PUBLIC_SUPABASE_URL")
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?
+    access_token      String?
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
+    @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Deck {
-  id            String   @id @unique @default(cuid())
-  userId        String
-  name          String
-  description   String
-  formatId      String
-  cardIds       String[]
-  cardNames     String[]
-  favorites     Int      @default(0)
-  isDeckPrivate Boolean  @default(false)
-  typeIds       String[]
-  Format        Format   @relation(fields: [formatId], references: [id])
-  User          User     @relation(fields: [userId], references: [id])
-  Types         Type[]   @relation("DeckToType")
-}
-
-model Format {
-  id                     String   @id @unique @default(cuid())
-  name                   String
-  allowedRegulationMarks String[]
-  Deck                   Deck[]
-}
-
-model Type {
-  id   String @id @unique @default(cuid())
-  name String
-  Deck Deck[] @relation("DeckToType")
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  bio           String?
-  created_at    DateTime  @default(now())
-  updated_at    DateTime
-  userName      String?
-  image         String?
-  accounts      Account[]
-  decks         Deck[]
-  sessions      Session[]
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    image         String?
+    createdAt     DateTime  @default(now())
+    bio           String?
+    userName      String?
+    emailVerified DateTime?
+    accounts      Account[]
+    decks         Deck[]
+    sessions      Session[]
+}
+
+model Deck {
+    id            String   @id @unique @default(cuid())
+    userId        String
+    name          String
+    description   String
+    formatId      String
+    cardIds       String[]
+    cardNames     String[]
+    favorites     Int      @default(0)
+    isDeckPrivate Boolean  @default(false)
+    typeIds       String[]
+    Format        Format   @relation(fields: [formatId], references: [id])
+    User          User     @relation(fields: [userId], references: [id])
+    Types         Type[]   @relation("DeckToType")
+}
+
+model Format {
+    id                     String   @id @unique @default(cuid())
+    name                   String
+    allowedRegulationMarks String[]
+    Deck                   Deck[]
+}
+
+model Type {
+    id   String @id @unique @default(cuid())
+    name String
+    Deck Deck[] @relation("DeckToType")
 }
