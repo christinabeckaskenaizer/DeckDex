@@ -32,7 +32,16 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
             cardNames : cardNames,
         }
     });
-    res.status(200).json({"id" : result.id})
+    res.status(200).json({
+        "id" : result.id,
+        "userId" : result.userId,
+        "name": result.name,
+        "description" : result.description,
+        "formatId" : result.formatId,
+        "isDeckPrivate" : result.isDeckPrivate,
+        "cardIds" : result.cardIds,
+        "cardNames" : result.cardNames
+    })
 } catch (error) {
     res.json(error);
 }
