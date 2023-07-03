@@ -18,6 +18,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<UserResponseData | string>) {
 
+    
     const session = await getServerSession(req, res, authOptions);
 
     if(session?.user?.id !== req.body.userId) {
