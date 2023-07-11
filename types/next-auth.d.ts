@@ -7,9 +7,16 @@ declare module "next-auth" {
   interface Session {
     user: {
         id: string;
-        credits: number;
-        freeCredits: number;
-        whitelisted: boolean | false;
+        userName: string | null;
+        bio: string | null;
     } & DefaultSession["user"]
+  }
+
+  interface deck {
+    deck: {
+        id: string;
+        userId: string;
+        name: string;
+    }
   }
 }

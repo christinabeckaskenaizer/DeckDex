@@ -22,9 +22,9 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
 
     const session = await getServerSession(req, res, authOptions);
 
-    if(session?.user?.id !== req.body.userId) {
-        return res.status(401).json("Unauthorized");
-    }
+    // if(session?.user?.id !== req.body.userId) {
+    //     return res.status(401).json("Unauthorized");
+    // }
 
     const { userId, name, description, formatId, isDeckPrivate, cardIds, cardNames} = req.body;
     console.log("hello", name);
