@@ -13,8 +13,10 @@ export default function CardViewer({ cardName, cardImage, cardText, cardType, ca
     return (
         <div className='flex flex-col items-center h-full w-72 flex-1 text-center bg-zinc-700 rounded-xl pt-12 px-4'>
             <div className="flex items-center flex-col">
-                <h1>{cardName}</h1>
-                <Image width={128} height={512} src={cardImage} alt={cardName || "Displayed Card"} className="h-96 w-72" />
+                <h1 
+                className="text-2xl font-bold mb-6"
+                >{cardName && cardName}</h1>
+                {cardImage && <Image width={128} height={512} src={cardImage} alt={cardName || "Displayed Card"} className="h-96 w-72" />}
                 {/* <p>{cardText}</p>
                 <p>{cardType}</p>
                 <p>{cardSubType}</p>

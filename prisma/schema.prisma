@@ -1,11 +1,11 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch", "fullTextIndex", "jsonProtocol"]
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("NEXT_PUBLIC_SUPABASE_URL")
+  url      = env("SUPABASE_URL")
 }
 
 model Account {
@@ -54,8 +54,9 @@ model Deck {
   name          String
   description   String
   formatId      String
-  cardIds       String[]
-  cardNames     String[]
+  // cardIds       String[]
+  // cardNames     String[]
+  cards         Json[]
   favorites     Int      @default(0)
   isDeckPrivate Boolean  @default(false)
   typeIds       String[]

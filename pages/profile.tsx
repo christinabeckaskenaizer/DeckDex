@@ -258,7 +258,7 @@ export default function ProfilePage() {
                                                         <h1 className="font-bold">{deck.name}</h1>
                                                         <p className="text-sm">{deck.description}</p>
                                                         <p className="text-xs absolute bottom-2 right-4 text-zinc-400">
-                                                            {deck.cardIds.length} Cards
+                                                            {deck.cards.length} Cards
                                                         </p>
                                                     </div>
                                                 );
