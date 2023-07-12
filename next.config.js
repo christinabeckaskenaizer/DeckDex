@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
-
-module.exports = nextConfig
+module.exports = {
+    transpilePackages: ['three'],
+    reactStrictMode: true,
+    images: {
+        domains: ["lh3.googleusercontent.com"],
+        unoptimized: true
+    },
+}
