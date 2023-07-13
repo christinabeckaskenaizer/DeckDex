@@ -11,6 +11,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
         formatId?: string,
         isDeckPrivate?: boolean,
         cards?: {},
+        pricingUpdatedAt?: Date,
     };
 }
 
@@ -32,7 +33,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         return res.status(401).json("Unauthorized");
     }
 
-    const { id, name, description, formatId, isDeckPrivate, cards } = req.body;
+    const { id, name, description, formatId, isDeckPrivate, cards, pricingUpdatedAt } = req.body;
 
     const updateDeck = await prisma.deck.update({
         where: {
@@ -44,17 +45,10 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
             formatId: formatId,
             isDeckPrivate: isDeckPrivate,
             cards: cards,
+            pricingUpdatedAt: pricingUpdatedAt
         },
     })
     res.status(200).json({
-        "id": updateDeck.id,
-        "userId": updateDeck.userId,
-        "name": updateDeck.name,
-        "description": updateDeck.description,
-        "formatId": updateDeck.formatId,
-        "cards": updateDeck.cards,
-        "favorites": updateDeck.favorites,
-        "isDeckPrivate": updateDeck.isDeckPrivate,
-        "typeIds": updateDeck.typeIds
+        updateDeck
     })
 }

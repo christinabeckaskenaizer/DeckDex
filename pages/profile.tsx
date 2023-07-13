@@ -5,6 +5,7 @@ import SignInButton from "../components/SignInButton";
 import SignOutButton from "../components/SignOutButton";
 import { Tab } from "@headlessui/react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 // import { PencilSquareIcon } from "@heroicons/react/20/solid/";
 
 export default function ProfilePage() {
@@ -249,18 +250,21 @@ export default function ProfilePage() {
                                     )}
                                 >
                                     <span className="grid grid-cols-3">
-                                        {userDecks &&
-                                            userDecks.map((deck) => {
+                                        {status === "authenticated" && userDecks &&
+                                            userDecks.map((deck: any, idx: number) => {
                                                 return (
-                                                    <div
-                                                        key={deck.id}
-                                                        className="relative outline-1 outline outline-zinc-300 mx-2 max-w-96 h-32 p-2 flex flex-col rounded-lg bg-zinc-700">
-                                                        <h1 className="font-bold">{deck.name}</h1>
-                                                        <p className="text-sm">{deck.description}</p>
-                                                        <p className="text-xs absolute bottom-2 right-4 text-zinc-400">
-                                                            {deck.cards.length} Cards
-                                                        </p>
-                                                    </div>
+                                                    <Link
+                                                        key={deck.id + idx}
+                                                        href={`/deck/view/${deck.id}`}                                                    >
+                                                         <div
+                                                            className="relative outline-1 outline outline-zinc-300 mx-2 max-w-96 h-32 p-2 flex flex-col rounded-lg bg-zinc-700">
+                                                            <h1 className="font-bold">{deck.name}</h1>
+                                                            <p className="text-sm">{deck.description}</p>
+                                                            <p className="text-xs absolute bottom-2 right-4 text-zinc-400">
+                                                                {deck.cards && Object.entries(deck.cards) ? Object.entries(deck.cards).length : 0} Cards
+                                                            </p>
+                                                        </div>
+                                                    </Link>
                                                 );
                                             })}
                                     </span>
