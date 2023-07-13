@@ -4,16 +4,20 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CardLink from '../../../components/card-link';
 import { useSession } from "next-auth/react";
+import DeckDataFrame from '../../../components/deck-data-frame';
+import TestDeckButton from '../../../components/test-deck-button';
 
 
 export default function ViewDeckPage() {
 
     const [deck, setDeck] = useState<any>({});
-    const [currentCard, setCurrentCard] = useState<string | "">("");
-    const [currentName, setCurrentName] = useState<string | "">("");
+    const [currentCard, setCurrentCard] = useState<{} | undefined>({});
 
     const router = useRouter();
     const { data: session, status } = useSession();
+
+
+
 
     async function getDeck() {
         const res = await fetch(`http://localhost:3000/api/deck/get-one/`, {
@@ -25,66 +29,32 @@ export default function ViewDeckPage() {
                 id: router.query.slug
             })
         });
-        const deck = await res.json();
-        setDeck(deck);
+        const deckInfo = await res.json();
+        setDeck(deckInfo);
     }
 
-    function setDisplayedCard(link: any, title: any) {
-        setCurrentCard(link);
-        setCurrentName(title);
+    function setDisplayedCard(card: any) {
+        setCurrentCard(card);
     }
 
     useEffect(() => {
         if (router.isReady) {
-            getDeck();
-        }
-    }, [router.query.slug]);
-
-    async function getAndAddCard() {
-        // for test
-
-        let url = '/api/card/get-card';
-        let res = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'cardId': 'xy1-139'
-            }),
-        });
-        console.log("HOOOOWEEEE")
-        if (res.status === 200 && session?.user.id) {
-            let card = await res.json();
-            // console.log(card);
-
-            let cardObject = {
-                'cardId': card.id,
-                'cardName': card.name,
-                'cardImage': card.images.small,
-                'cardType': card.supertype,
-                'cardCount': 12,
+            if (!deck.cards) {
+                getDeck();
             }
-            console.log(cardObject);
-
-            let deckUpdateUrl = '/api/deck/update';
-            let deckUpdateRes = await fetch(deckUpdateUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    'id': router.query.slug,
-                    'userId': session.user.id,
-                    'cards': [...deck.cards, cardObject]
-                })
-            });
-            if (deckUpdateRes.status === 200) {
-                let deckUpdate = await deckUpdateRes.json();
-                console.log(deckUpdate);
+            if (deck.cards) {
+                for (let card of deck.cards) {
+                    if (card.cardType === 'Pokémon') {
+                        setCurrentCard(card);
+                        console.log(card);
+                        break;
+                    }
+                }
             }
         }
-    }
+    }, [router.query.slug, deck]);
+
+
 
     return (
         <main
@@ -93,29 +63,23 @@ export default function ViewDeckPage() {
             <Head>
                 <title>DeckDex | View Deck</title>
             </Head>
-            <button
-                onClick={() => getAndAddCard()}
-            >
-                TEST
-            </button>
-            {deck && <div className='h-[95vh] w-[95vw] m-6 bg-zinc-900 rounded-md p-4 flex flex-row'>
+
+            <TestDeckButton deck={deck} />
+            {deck && <div className='h-auto w-[95vw] mt-6 bg-zinc-900 rounded-md p-4 flex flex-row mb-4'>
                 <CardViewer
-                    cardType='basic'
-                    cardName={currentName}
-                    cardImage={currentCard}
-                    cardPrice={10}
-                    cardSubType='basic'
-                    cardText='a plan was recently announced to gather many Pikachu and make an electric power plant'
+                    card={currentCard}
                 />
-                <div className='w-[70vw] h-full flex flex-col'>
-                    <h1 className='text-4xl font-bold mb-12'>{deck.name}</h1>
+                <div className='w-[70vw] h-full flex flex-col '>
+                    <h1 className='text-4xl font-bold mb-2'>{deck.name}</h1>
+                    <h2 className='text-sm mb-4'>{deck.description}</h2>
                     <div>
-                        <span className='flex flex-row justify-evenly'>
-                            <div className='flex flex-col h-[83vh] w-80 bg-zinc-800 pt-4 px-5'>
+                        <span className='flex flex-row justify-evenly bg-zinc-800 rounded-xl mx-4'>
+                            <div className='flex flex-col h-[50vh] w-80  pt-4 px-5 rounded-xl'>
                                 <h2 className='text-xl font-bold underline mb-4'>Pokemon</h2>
                                 {deck && deck.cards && deck.cards.map((card: any) => {
                                     return (
                                         card.cardType === 'Pokémon' && <CardLink
+                                            card={card}
                                             count={card.cardCount}
                                             key={card.cardId}
                                             href={card.cardImage}
@@ -125,11 +89,12 @@ export default function ViewDeckPage() {
                                     )
                                 })}
                             </div>
-                            <div className='flex flex-col h-[83vh] w-80 bg-zinc-800 pt-4 px-5'>
+                            <div className='flex flex-col h-[50vh] w-80 pt-4 px-5 rounded-xl'>
                                 <h2 className='text-xl font-bold underline mb-4'>Trainer Cards</h2>
                                 {deck && deck.cards && deck.cards.map((card: any) => {
                                     return (
                                         card.cardType === 'Trainer' && <CardLink
+                                            card={card}
                                             count={card.cardCount}
                                             key={card.cardId}
                                             href={card.cardImage}
@@ -139,11 +104,12 @@ export default function ViewDeckPage() {
                                     )
                                 })}
                             </div>
-                            <div className='flex flex-col h-[83vh] w-80 bg-zinc-800 pt-4 px-5'>
+                            <div className='flex flex-col h-[50vh] w-80 pt-4 px-5 rounded-xl'>
                                 <h2 className='text-xl font-bold underline mb-4'>Energy</h2>
                                 {deck && deck.cards && deck.cards.map((card: any) => {
                                     return (
                                         card.cardType === 'Energy' && <CardLink
+                                            card={card}
                                             count={card.cardCount}
                                             key={card.cardId}
                                             href={card.cardImage}
@@ -154,6 +120,7 @@ export default function ViewDeckPage() {
                                 })}
                             </div>
                         </span>
+                        {deck && <DeckDataFrame deck={deck} />}
                     </div>
                 </div>
             </div>}
