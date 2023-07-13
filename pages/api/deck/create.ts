@@ -36,8 +36,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
             description : description,
             formatId : formatId,
             isDeckPrivate :isDeckPrivate,
-            cardIds : cardIds,
-            cardNames : cardNames,
         }
     });
     res.status(200).json({
@@ -47,8 +45,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         "description" : result.description,
         "formatId" : result.formatId,
         "isDeckPrivate" : result.isDeckPrivate,
-        "cardIds" : result.cardIds,
-        "cardNames" : result.cardNames
+        "cards": result.cards
     })
 } catch (error) {
     res.json(error);

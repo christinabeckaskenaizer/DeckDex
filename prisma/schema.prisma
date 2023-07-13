@@ -1,11 +1,11 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch", "fullTextIndex", "jsonProtocol"]
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("NEXT_PUBLIC_SUPABASE_URL")
+  url      = env("SUPABASE_URL")
 }
 
 model Account {
@@ -49,19 +49,19 @@ model User {
 }
 
 model Deck {
-  id            String   @id @unique @default(cuid())
-  userId        String
-  name          String
-  description   String
-  formatId      String
-  cardIds       String[]
-  cardNames     String[]
-  favorites     Int      @default(0)
-  isDeckPrivate Boolean  @default(false)
-  typeIds       String[]
-  Format        Format   @relation(fields: [formatId], references: [id])
-  User          User     @relation(fields: [userId], references: [id])
-  Types         Type[]   @relation("DeckToType")
+  id                String   @id @unique @default(cuid())
+  userId            String
+  name              String
+  description       String
+  formatId          String
+  cards             Json?
+  pricingUpdatedAt  DateTime @default(now())
+  favorites         Int      @default(0)
+  isDeckPrivate     Boolean  @default(false)
+  typeIds           String[]
+  Format            Format   @relation(fields: [formatId], references: [id])
+  User              User     @relation(fields: [userId], references: [id])
+  Types             Type[]   @relation("DeckToType")
 }
 
 model Format {
