@@ -131,7 +131,7 @@ export default function DeckDataFrame({ deck }: Props) {
 
     // Need to display the values of each type of card next to the chart
     const costOption = {
-        title: `Deck Cost - Market (${formatter.format(totalCost)})`,
+        title: `Deck Cost - Market (${formatter.format(parseFloat(totalCost))})`,
         backgroundColor: 'transparent',
         titleTextStyle: {
             color: '#fff',
