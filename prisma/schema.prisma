@@ -49,19 +49,19 @@ model User {
 }
 
 model Deck {
-  id                String   @id @unique @default(cuid())
-  userId            String
-  name              String
-  description       String
-  formatId          String
-  cards             Json?
-  pricingUpdatedAt  DateTime @default(now())
-  favorites         Int      @default(0)
-  isDeckPrivate     Boolean  @default(false)
-  typeIds           String[]
-  Format            Format   @relation(fields: [formatId], references: [id])
-  User              User     @relation(fields: [userId], references: [id])
-  Types             Type[]   @relation("DeckToType")
+  id               String   @id @unique @default(cuid())
+  userId           String
+  name             String
+  description      String
+  formatId         String
+  favorites        Int      @default(0)
+  isDeckPrivate    Boolean  @default(false)
+  typeIds          String[]
+  cards            Json?
+  pricingUpdatedAt DateTime @default(now())
+  Format           Format   @relation(fields: [formatId], references: [id])
+  User             User     @relation(fields: [userId], references: [id])
+  Types            Type[]   @relation("DeckToType")
 }
 
 model Format {
