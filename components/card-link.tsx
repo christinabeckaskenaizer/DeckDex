@@ -19,10 +19,10 @@ export default function CardLink({ onHover, card }: Props) {
     }
     return (
         <a href={card.cardPriceInfo.url} target="_blank">
-            <span className="max-w-80 flex flex-row my-1 bg-zinc-700 rounded-xl px-2 py-1 items-center hover:text-yellow-500 hover:bg-zinc-600 justify-between" onMouseEnter={() => onHover(card)}>
+            <span className="truncate text-ellipsis max-w-80 flex flex-row my-1 bg-zinc-700 rounded-md px-2 py-1 items-center hover:text-yellow-500 hover:bg-zinc-600 justify-between" onMouseEnter={() => onHover(card)}>
                 <span className="flex flex-row">
                     <p className="text-zinc-300 text-sm">{card.cardCount}&nbsp;x&nbsp;</p>
-                    <p className="underline">{card.cardName}</p>
+                    <p className="underline text-sm h-6 truncate w-44 text-left">{card.cardName}</p>
                 </span>
                 <p className="text-zinc-300 text-sm text-right">&nbsp;{getMarketPrice()}</p>
             </span>

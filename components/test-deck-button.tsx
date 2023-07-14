@@ -11,8 +11,8 @@ export default function TestDeckButton({ deck }: Props) {
     const router = useRouter();
 
     async function addManyCards(){
-        for(let i = 80; i < 140; i++){
-            console.log('trying xy1-' + i.toString());
+        for(let i = 210; i < 215; i++){
+            console.log('trying swsh1-' + i.toString());
             await getAndAddCard(i.toString());
         }
         console.log("done");
@@ -27,7 +27,7 @@ export default function TestDeckButton({ deck }: Props) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'cardId': `xy1-${id}`
+                'cardId': `swsh1-${id}`
             }),
         });
         if (res.status === 200 && session?.user.id) {
@@ -36,6 +36,10 @@ export default function TestDeckButton({ deck }: Props) {
             let cardObject = {
                 'cardId': card.id,
                 'cardNumber': card.number,
+                'cardSetTotal': card.set.total,
+                'cardSet': card.set.name,
+                'cardSetSeries': card.set.series,
+                'cardSetLogo': card.set.images.logo,
                 'cardName': card.name,
                 'cardImage': card.images.small,
                 'cardType': card.supertype,

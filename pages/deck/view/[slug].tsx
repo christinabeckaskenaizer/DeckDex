@@ -42,7 +42,6 @@ export default function ViewDeckPage() {
             })
         });
         const deckInfo = await res.json();
-        console.log("Got Deck", deckInfo);
         if ((!deckInfo.pricingUpdatedAt || isMoreThanFiveMinutesAgo(new Date(deckInfo.pricingUpdatedAt))) && session?.user?.id && deckInfo.cards) {
             setPageStatus("Updating Deck Price Info")
             console.log("updating deck price info");
@@ -110,7 +109,7 @@ export default function ViewDeckPage() {
                                     )
                                 })}
                             </div>
-                            <div className='flex flex-col h-[50vh] w-80 pt-4 px-5 rounded-xl'>
+                            <div className='flex flex-col h-auto mb-2 w-80 pt-4 px-5 rounded-xl'>
                                 <h2 className='text-xl font-bold underline mb-4'>Trainer Cards</h2>
                                 {deck && deck.cards && Object.keys(deck.cards).map((key: any) => {
                                     return (

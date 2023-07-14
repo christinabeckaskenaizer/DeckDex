@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
+import { formatter } from "../utils";
 
 interface Props {
     deck: any;
@@ -30,6 +31,7 @@ export default function DeckDataFrame({ deck }: Props) {
     const [deckData, setDeckData] = useState<any>([]);
     const [energyData, setEnergyData] = useState<any>([]);
     const [costData, setCostData] = useState<any>([]);
+    const [totalCost, setTotalCost] = useState<string>("");
 
 
     let cardDataObject: any = {};
@@ -41,6 +43,7 @@ export default function DeckDataFrame({ deck }: Props) {
 
     useEffect(() => {
         if (!deck.cards) return;
+        console.log('deck');
         let cardData = [['Card Type', 'Card Count']];
         for (let key of Object.keys(deck.cards)) {
             let card = deck.cards[key];
@@ -60,9 +63,11 @@ export default function DeckDataFrame({ deck }: Props) {
         cardData.push(['Trainer', cardDataObject['Trainer']]);
         cardData.push(['Energy', cardDataObject['Energy']]);
 
+        let cost = 0
         if (cardEnergyData.length === 1) {
             for (let type in costDataObject) {
                 costTypeData.push([type, costDataObject[type], TYPE_COLORS[type]]);
+                cost += costDataObject[type];
             }
         }
 
@@ -71,10 +76,12 @@ export default function DeckDataFrame({ deck }: Props) {
                 cardEnergyData.push([type, cardEnergyObject[type], COLORS[type]]);
             }
         }
+        setTotalCost(cost.toString());
         setDeckData(cardData);
         setEnergyData(cardEnergyData);
         setCostData(costTypeData);
-    }, [deck]);
+
+    }, [deck, totalCost]);
 
 
 
@@ -124,7 +131,7 @@ export default function DeckDataFrame({ deck }: Props) {
 
     // Need to display the values of each type of card next to the chart
     const costOption = {
-        title: 'Deck Cost - Market',
+        title: `Deck Cost - Market (${formatter.format(totalCost)})`,
         backgroundColor: 'transparent',
         titleTextStyle: {
             color: '#fff',
@@ -155,10 +162,20 @@ export default function DeckDataFrame({ deck }: Props) {
 
     }
 
+
+    const chartEvents = [
+        {
+            eventName: "select",
+            callback({ chartWrapper }: any) {
+                console.log("Selected ", chartWrapper.getChart().getSelection());
+            }
+        }
+    ];
+
     return (
         <>
-            {deck.cards && <div className='items-center justify-between w-auto mx-4 mt-6 h-[30vh] bg-zinc-800 rounded-xl flex flex-row'>
-                <span className='rounded-xl ml-3 mr-2 w-full h-64 bg-zinc-500 flex flex-row justify-between'>
+            {deck.cards && <div className='w-auto mt-6 h-auto bg-zinc-00 rounded-xl'>
+                <span className='rounded-xl ml-3 mr-2 w-full h-auto bg-zinc-800 2xl:flex 2xl:flex-row justify-between grid grid-cols-2'>
                     {deckData && <Chart
                         className='rounded-xl'
                         chartType="PieChart"
@@ -178,7 +195,9 @@ export default function DeckDataFrame({ deck }: Props) {
                         width={"auto"}
                         height={"280px"}
 
-                    />}
+                    />
+
+                    }
                 </span>
             </div>}
         </>
