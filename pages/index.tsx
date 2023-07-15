@@ -10,17 +10,28 @@ const Home: NextPage = () => {
     <main className="flex flex-col p-12">
 
         { (session?.user) ?
-        <div className="bg-zinc-800 items-end float-right font-mono text-sm lg:flex justify-end">
-          <div className='bg-red-800 items-center justify-center'>
-          <p>Build a Deck</p>
-          <p>My Decks</p>
-          <p>Card Gallery</p>
+        <div className="bg-zinc-800 font-mono text-sm py-4 px-8 flex rounded-full">
+          <div className='grid grid-cols-3 items-center justify-between w-full mx-auto'>
+          <p className='flex items-center m-auto'>Build a Deck</p>
+          <p className='flex items-center m-auto'>My Decks</p>
+          <p className='flex items-center m-auto'>Card Gallery</p>
           </div>
+          <div className="font-mono text-sm flex justify-center m-auto items-center rounded-lg">
           <button onClick={() => signOut()}>Log Out</button>
-          <Image className='rounded-full w-auto h-auto' src={session?.user.image  || "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1200px-Pok%C3%A9_Ball_icon.svg.png"} width={64} height={64} alt="profile picture"/>
+          <Image className='rounded-full w-8 h-8' src={session?.user.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1200px-Pok%C3%A9_Ball_icon.svg.png"} width={64} height={64} alt="profile picture"/>
+          </div>
         </div> :
-        <div className=" items-end float-right font-mono text-sm lg:flex justify-end mx-auto">
+        <div className="bg-zinc-800 font-mono text-sm p-4 flex rounded-full">
+        <div className='grid grid-cols-3 items-center justify-between w-full mx-auto'>
+        <p>Build a Deck</p>
+        <p>My Decks</p>
+        <p>Card Gallery</p>
+        </div>
+        <div className="bg-blue-400 font-mono text-sm flex justify-center m-auto items-center ">
+        </div>
+        <div className="bg-green-700 font-mono text-sm lg:flex justify-end mx-auto rounded-lg px-3">
           <button onClick={() => signIn("google")}>Log In</button>
+          </div>
           </div>
         }
 
