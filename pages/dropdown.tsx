@@ -1,14 +1,17 @@
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { signIn, signOut, useSession } from "next-auth/react"
 
-export default function Example() {
+export default function Dropdown() {
+    const { data: session } = useSession();
+    console.log(session);
   return (
-    <div className="fixed top-16 w-56 text-right">
+    <div className="">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-            Options
+          <img className='rounded-full w-8 h-8' src={session?.user.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1200px-Pok%C3%A9_Ball_icon.svg.png"} width={64} height={64} alt="profile picture" />
             <ChevronDownIcon
               className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
               aria-hidden="true"
@@ -78,10 +81,9 @@ export default function Example() {
   )
 }
 
-function EditInactiveIcon(props) {
+function EditInactiveIcon() {
   return (
     <svg
-      {...props}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -96,10 +98,10 @@ function EditInactiveIcon(props) {
   )
 }
 
-function EditActiveIcon(props) {
+function EditActiveIcon() {
   return (
     <svg
-      {...props}
+
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -114,10 +116,9 @@ function EditActiveIcon(props) {
   )
 }
 
-function DuplicateInactiveIcon(props) {
+function DuplicateInactiveIcon() {
   return (
     <svg
-      {...props}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -138,10 +139,9 @@ function DuplicateInactiveIcon(props) {
   )
 }
 
-function DuplicateActiveIcon(props) {
+function DuplicateActiveIcon() {
   return (
     <svg
-      {...props}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
