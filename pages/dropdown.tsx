@@ -54,6 +54,7 @@ export default function Dropdown() {
               <Menu.Item>
                 {({ active }) => (
                   <button
+                  onClick={() => signOut()}
                     className={`${
                       active ? 'bg-violet-500 text-white' : 'text-gray-900'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -70,6 +71,7 @@ export default function Dropdown() {
                       />
                     )}
                     Log Out
+                    {/* <button onClick={() => signOut()}>Log Out</button> */}
                   </button>
                 )}
               </Menu.Item>
