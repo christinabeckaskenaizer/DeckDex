@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import DeckDataFrame from '../../../components/deck-data-frame';
 import TestDeckButton from '../../../components/test-deck-button';
 import { updateDeckPriceInfo } from '../../../utils';
+import DeckViewHeader from '../../../components/deck-view-header';
 
 
 export default function ViewDeckPage() {
@@ -15,6 +16,7 @@ export default function ViewDeckPage() {
     const [currentCard, setCurrentCard] = useState<{} | undefined>({});
     const [loaded, setLoaded] = useState<boolean>(false);
     const [pageStatus, setPageStatus] = useState<string>("");
+    const [deckUserInfo, setDeckUserInfo] = useState<any>(null);
 
     const router = useRouter();
     const { data: session, status } = useSession();
@@ -41,7 +43,9 @@ export default function ViewDeckPage() {
                 id: router.query.slug
             })
         });
-        const deckInfo = await res.json();
+        const response = await res.json();
+        const deckInfo = response.deck;
+        const deckUser = response.User;
         if ((!deckInfo.pricingUpdatedAt || isMoreThanFiveMinutesAgo(new Date(deckInfo.pricingUpdatedAt))) && session?.user?.id && deckInfo.cards) {
             setPageStatus("Updating Deck Price Info")
             console.log("updating deck price info");
@@ -53,6 +57,7 @@ export default function ViewDeckPage() {
         } else {
             setDeck(deckInfo);
         }
+        setDeckUserInfo(deckUser);
         setLoaded(true);
         setPageStatus("Done");
     }
@@ -88,18 +93,19 @@ export default function ViewDeckPage() {
                 <title>DeckDex | View Deck</title>
             </Head>
 
-            <TestDeckButton deck={deck} />
+            {/* <TestDeckButton deck={deck} /> */}
             {loaded && <div className='h-auto w-[95vw] mt-6 bg-zinc-900 rounded-md p-4 flex flex-row mb-4'>
                 <CardViewer
                     card={currentCard}
                 />
                 <div className='w-[75vw] h-full flex flex-col '>
-                    <h1 className='text-4xl font-bold mb-2'>{deck.name}</h1>
-                    <h2 className='text-sm mb-4'>{deck.description}</h2>
+                    {/* <h1 className='text-4xl font-bold mb-2'>{deck.name}</h1>
+                    <h2 className='text-sm mb-4'>{deck.description}</h2> */}
+                    <DeckViewHeader deck={deck}/>
                     <div>
                         <span className='flex flex-row justify-evenly bg-zinc-800 rounded-xl mx-4'>
                             <div className='flex flex-col h-auto w-80  py-4 px-5 rounded-xl'>
-                                <h2 className='text-xl font-bold underline mb-4'>Pokemon</h2>
+                                <h2 className='text-xl font-bold underline mb-1'>Pokemon</h2>
                                 {deck && deck.cards && Object.keys(deck.cards).map((key: any, idx: number) => {
                                     return (
                                         deck.cards[key].cardType === 'Pokémon' && <CardLink
@@ -110,7 +116,7 @@ export default function ViewDeckPage() {
                                 })}
                             </div>
                             <div className='flex flex-col h-auto mb-2 w-80 pt-4 px-5 rounded-xl'>
-                                <h2 className='text-xl font-bold underline mb-4'>Trainer Cards</h2>
+                                <h2 className='text-xl font-bold underline mb-1'>Trainer Cards</h2>
                                 {deck && deck.cards && Object.keys(deck.cards).map((key: any) => {
                                     return (
                                         deck.cards[key].cardType === 'Trainer' && <CardLink
@@ -121,7 +127,7 @@ export default function ViewDeckPage() {
                                 })}
                             </div>
                             <div className='flex flex-col h-[50vh] w-80 pt-4 px-5 rounded-xl'>
-                                <h2 className='text-xl font-bold underline mb-4'>Energy</h2>
+                                <h2 className='text-xl font-bold underline mb-1'>Energy</h2>
                                 {deck && deck.cards && Object.keys(deck.cards).map((key: any) => {
                                     return (
                                         deck.cards[key].cardType === 'Energy' && <CardLink

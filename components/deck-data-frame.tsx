@@ -174,7 +174,7 @@ export default function DeckDataFrame({ deck }: Props) {
 
     return (
         <>
-            {deck.cards && <div className='w-auto mt-6 h-auto bg-zinc-00 rounded-xl'>
+            {deck.cards && <div className='w-auto mt-6 h-auto bg-zinc-00 rounded-xl mx-1'>
                 <span className='rounded-xl ml-3 mr-2 w-full h-auto bg-zinc-800 2xl:flex 2xl:flex-row justify-between grid grid-cols-2'>
                     {deckData && <Chart
                         className='rounded-xl'
