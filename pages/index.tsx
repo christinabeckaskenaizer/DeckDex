@@ -199,7 +199,7 @@ function Home() {
   ]
 
   return (
-    <main className="flex flex-col bg-zinc-200 h-screen">
+    <main className="flex flex-col bg-zinc-50 h-screen">
       <Header />
 
       {/* {(session?.user) ?
@@ -236,11 +236,11 @@ function Home() {
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
             </svg>
           </div>
-          <input type="search" id="default-search" className="block shadow-lg shadow-black w-[40vw] p-4 pl-10 text-sm text-gray-900 border focus:outline-none border-gray-300 rounded-md bg-gray-50 focus:none focus:none dark:bg-gray-300 dark:border-gray-600 dark:placeholder-gray-500 dark:black" placeholder="Search..." required />
+          <input type="search" id="default-search" className="block shadow-lg shadow-black w-[40vw] p-4 pl-10 text-sm text-gray-900 border focus:outline-none border-gray-300 rounded-md bg-gray-50 focus:none focus:none dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-500 dark:black" placeholder="Search..." required />
           <button type="submit" className="text-white absolute h-full translate-y-2 right-0 bottom-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
         </div>
       </form>
-      <div className='my-10 block p-6 bg-white border border-gray-200 rounded-lg shadow-inner w-screen'>
+      <div className='my-10 block p-6 bg-zinc-100 border border-gray-200 rounded-lg shadow-inner w-screen'>
         <h1 className='font-semibold -translate-y-9 bg-blue-300 border-1 border-black border w-40 rounded px-2'>POPULAR DECKS</h1>
         <div className='flex flex-row'>
           {userDecks.map((deck: any, idx: number) => {
@@ -273,7 +273,7 @@ function Home() {
         </div>
 
       </div>
-      <div className='my-10 block p-6 bg-white border border-gray-200 rounded-lg shadow-inner w-screen'>
+      <div className='my-10 block p-6 bg-zinc-100 border border-gray-200 rounded-lg shadow-inner w-screen'>
         <h1 className='font-semibold -translate-y-9 bg-blue-300 border-1 border-black border w-36 rounded px-2'>RECENT DECKS</h1>
         <div className='flex flex-row'>
           {recentDecks.map((deck: any, idx: number) => {
