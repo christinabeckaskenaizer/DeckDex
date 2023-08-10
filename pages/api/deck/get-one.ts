@@ -7,13 +7,19 @@ interface ExtendedNextApiRequest extends NextApiRequest {
     }
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse){
+export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse){
     const { id } = req.body;
 
-    let deck = await prisma.deck.findUnique({
+    let result = await prisma.deck.findUnique({
         where: {
             id : id
         },
+        include: {
+            User: true,
+        }
     })
-    res.status(200).json(deck)
+
+    if(!result) return res.status(404).json({message: "Deck not found"})
+
+    res.status(200).json({deck: result})
 }

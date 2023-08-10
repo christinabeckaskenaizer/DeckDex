@@ -19,9 +19,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
 
     const session = await getServerSession(req, res, authOptions);
 
-    console.log(req.body)
-    console.log(session?.user?.id)
-
     const deck = await prisma.deck.findUnique({
         where: {
             id: req.body.id,
